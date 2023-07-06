@@ -9,7 +9,8 @@
     "rootDir": "src",
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src"]
 }

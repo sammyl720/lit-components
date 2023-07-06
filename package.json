@@ -17,15 +17,19 @@
   "scripts": {
     "build": "rollup -c",
     "prepublish": "yarn run build",
-    "serve": "web-dev-server --config web-dev-server.config.mjs"
+    "serve": "web-dev-server --config web-dev-server.config.mjs",
+    "generate-component": "ts-node --esm ./scaffold/index.ts create",
+    "gc": "yarn generate-component"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.1.0",
     "@web/dev-server": "^0.2.5",
     "@web/dev-server-esbuild": "^0.4.1",
+    "commander": "^11.0.0",
     "rollup": "^3.26.1",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-typescript2": "^0.35.0",
+    "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
   }
 }
