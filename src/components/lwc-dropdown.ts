@@ -21,6 +21,7 @@ export class LwcDropdown extends LitElement {
     }
 
     .dropdown {
+      vertical-align: top;
       display: inline-block;
       padding: 4px;
       color:  var(--color);
