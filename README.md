@@ -15,8 +15,8 @@ npm install @sammyl/lit-components
 Import individual components like this:
 
 ```javascript
-import { SimpleButton } from '@sammyl/lit-components/simple-button';
-import { SimpleLink } from '@sammyl/lit-components/simple-link';
+import { SimpleButton } from '@sammyl/lit-components/dist/simple-button';
+import { SimpleLink } from '@sammyl/lit-components/dist/simple-link';
 ```
 
 Then you can use them in your HTML:
@@ -30,7 +30,7 @@ Then you can use them in your HTML:
 Or you can import multiple components from the main entry point:
 
 ```javascript
-import { simple-button, simple-link } from '@sammyl/lit-components';
+import { SimpleButton, SimpleLink } from '@sammyl/lit-components';
 ```
 
 
@@ -40,7 +40,7 @@ You can also use the library directly in an HTML file through Unpkg:
 
 ```html
 <script type="module">
-  import { simple-button, simple-link } from 'https://unpkg.com/@sammyl/lit-components@latest';
+  import { SimpleButton, SimpleLink } from 'https://unpkg.com/@sammyl/lit-components@latest';
 </script>
 
 <lwc-simple-link href="https://github.com" text="Github Link"></lwc-simple-link>
