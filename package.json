@@ -4,6 +4,10 @@
   "description": "A Small Web Components Library",
   "main": "dist/index.js",
   "author": "Shmuel Leider",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sammyl720/lit-components.git"
+  },
   "license": "MIT",
   "private": false,
   "type": "module",
