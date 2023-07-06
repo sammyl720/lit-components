@@ -9,7 +9,17 @@
 </head>
 
 <body>
-  <lwc-simple-button></lwc-simple-button>
+  <lwc-dropdown title="Components" items='[{"text":"one"},{"text":"two"}]'></lwc-dropdown>
+  <div id="output"></div>
 </body>
+
+<script>
+  const output = document.querySelector('#output')
+  const el = document.querySelector('lwc-dropdown')
+  console.log(el)
+  el.addEventListener('itemSelected', e => {
+    output.innerHTML = `<p>Selected: ${e.detail.text}</p>`;
+  })
+</script>
 
 </html>
