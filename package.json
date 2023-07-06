@@ -1,0 +1,24 @@
+{
+  "name": "@sammyl/lit-components",
+  "version": "1.0.1",
+  "description": "A Small Web Components Library",
+  "main": "dist/index.js",
+  "author": "Shmuel Leider",
+  "license": "MIT",
+  "private": false,
+  "type": "module",
+  "dependencies": {
+    "lit": "^2.7.6"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "prepublish": "yarn run build"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "rollup": "^3.26.1",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-typescript2": "^0.35.0",
+    "typescript": "^5.1.6"
+  }
+}
