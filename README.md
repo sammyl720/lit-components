@@ -1,4 +1,4 @@
-# My Lit Web Components Library
+# A Lit Web Components Library
 
 This is a library of web components built using Lit and TypeScript. The library is bundled with Rollup and can be used in any JavaScript or TypeScript project.
 
@@ -15,16 +15,16 @@ npm install @sammyl/lit-components
 Import individual components like this:
 
 ```javascript
-import { SimpleButton } from '@sammyl/lit-components/dist/simple-button';
 import { SimpleLink } from '@sammyl/lit-components/dist/simple-link';
 ```
 
 Then you can use them in your HTML:
 
 ```html
-<lwc-simple-link href="https://github.com" text="Github Link"></lwc-simple-link>
-<lwc-simple-button text="Button Text"></lwc-simple-button>
-
+<lwc-simple-link 
+  href="https://github.com/sammyl720/lit-components" 
+  text="Github Link">
+</lwc-simple-link>
 ```
 
 Or you can import multiple components from the main entry point:
