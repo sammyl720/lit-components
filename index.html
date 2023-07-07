@@ -6,22 +6,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MyComponent Demo</title>
   <script type="module" src="./src/index.ts"></script>
+  <style>
+    .container {
+      width: min(600px, 80vw);
+      margin: auto;
+      gap: 16px;
+      display: grid;
+      place-content: center;
+      grid-template-columns: 1fr 2fr;
+    }
+  </style>
 </head>
 
 <body>
-  <lwc-dropdown title="Components" items='[{"text":"one"},{"text":"two"}]'></lwc-dropdown>
-  <lwc-dropdown style="--primary-color: blue;" title="Components"
-    items='[{"text":"one"},{"text":"two"}]'></lwc-dropdown>
-  <div id="output"></div>
+  <div class="container">
+    <lwc-dropdown title="Healthy Food" items='[{"text":"Fish"},{"text":"Salad"}, {"text":"Fruits"}]'>dsd</lwc-dropdown>
+    <lwc-expanding-text lines="5"
+      text="
+      Web development forms the backbone of the digital universe. It comprises of a plethora of languages like HTML, CSS, and JavaScript, each with specific functions. With billions of websites online, each has a unique DNA coded by developers. Responsive design is now a standard, ensuring sites adapt to any device. Ever-evolving, the field embraces advancements such as Web 3.0, emphasizing machine learning and semantic metadata. APIs now facilitate seamless interconnectivity between platforms, improving user experience. Constant learning remains key, as frameworks like React and Angular redefine the landscape. Security and privacy also remain paramount in web development."></lwc-expanding-text>
+  </div>
 </body>
-
-<script>
-  const output = document.querySelector('#output')
-  const el = document.querySelector('lwc-dropdown')
-  console.log(el)
-  el.addEventListener('itemSelected', e => {
-    output.innerHTML = `<p>Selected: ${e.detail.text}</p>`;
-  })
-</script>
 
 </html>
