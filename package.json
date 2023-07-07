@@ -1,6 +1,6 @@
 {
   "name": "@sammyl/lit-components",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A Small Web Components Library",
   "main": "dist/index.js",
   "author": "Shmuel Leider",
