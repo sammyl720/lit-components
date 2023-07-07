@@ -1,38 +1,73 @@
 import fs from 'fs';
 import path from 'path';
-import { generateComponentFileContent } from './utils.js';
+import { assertComponentNameIsValid, generateComponentFileContent, generateComponentMarkdownText } from './utils.js';
+import { PROJECT_COMPONENTS_DIRECTORY, PROJECT_DIRECTORY_PATH, PROJECT_RELATIVE_COMPONENTS_DIRECTORY } from '../config.js';
 
-export function createComponent(componentName: string) {
-  const filePath = path.join(process.cwd(), 'src', 'components', `${componentName}.ts`);
+export enum FileType {
+  Component = 'Component',
+  Markdown = 'Markdown'
+};
 
-  if (fs.existsSync(filePath)) {
-    console.error(`Component ${componentName} already exists.`);
-    process.exit(1);
-  }
-
-  createComponentFile({
-    componentName,
-    filePath
-  });
+export function createFile(componentName: string, fileType: FileType) {
+  assertComponentNameIsValid(componentName);
+  const filePath = getFilePath(componentName, fileType);
+  const content = generateFileContent(componentName, fileType);
+  createComponentFile({ filePath, content });
 }
 
-export function addComponentToExports(componentname: string) {
-  const relativePath = path.join('src', 'components', 'index.ts');
-  const filePath = path.join(process.cwd(), relativePath);
+function getFilePath(componentName: string, fileType: FileType) {
+  return fileType === FileType.Component ?
+    getComponentFilePath(componentName) :
+    getComponentMarkDownFilePath(componentName);
+}
 
-  const exportStatement = `\nexport * from './${componentname}';`;
+function generateFileContent(componentName: string, fileType: FileType) {
+  return fileType === FileType.Component ?
+    generateComponentFileContent(componentName) :
+    generateComponentMarkdownText(componentName);
+}
 
-  fs.appendFileSync(filePath, exportStatement);
+function getComponentMarkDownFilePath(componentName: string) {
+  return path.join(PROJECT_DIRECTORY_PATH, 'docs', `${componentName}.md`)
+}
+
+function getComponentFilePath(componentName: string) {
+  return path.join(PROJECT_COMPONENTS_DIRECTORY, `${componentName}.ts`);
+}
+
+export function appendToFile(relativePath: string, content: string) {
+  const filePath = path.join(PROJECT_DIRECTORY_PATH, relativePath);
+  fs.appendFileSync(filePath, content);
   console.log(`UPDATED ${relativePath}`);
 }
 
-interface CreateComponetFileOptions {
-  componentName: string;
-  filePath: string;
+export function addComponentToExports(componentName: string) {
+  assertComponentNameIsValid(componentName);
+  const relativePath = path.join(PROJECT_RELATIVE_COMPONENTS_DIRECTORY, 'index.ts');
+  const exportStatement = `\nexport * from './${componentName}';`;
+  appendToFile(relativePath, exportStatement);
 }
 
-function createComponentFile(options: CreateComponetFileOptions) {
-  const content = generateComponentFileContent(options.componentName);
-  fs.writeFileSync(options.filePath, content);
+export function addMarkDownComponentReference(componentName: string) {
+  assertComponentNameIsValid(componentName);
+  let markdownContent = `\n* [${componentName}](./docs/${componentName}.md) `;
+  appendToFile('components.md', markdownContent);
+}
+
+interface CreatFileOptions {
+  filePath: string;
+  content: string;
+}
+
+function createComponentFile(options: CreatFileOptions) {
+  assertFileDoesNotExist(options.filePath, `File already exists: ${options.filePath}`);
+  fs.writeFileSync(options.filePath, options.content);
   console.log(`CREATED ${options.filePath}`);
+}
+
+function assertFileDoesNotExist(filePath: string, message: string) {
+  if (fs.existsSync(filePath)) {
+    console.error(message);
+    process.exit(1);
+  }
 }

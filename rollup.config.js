@@ -1,11 +1,10 @@
 import fs from 'fs';
-import { fileURLToPath } from 'url';
-import { dirname, join, basename } from 'path';
+import { join, basename } from 'path';
 import typescript from 'rollup-plugin-typescript2';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
+import { PROJECT_DIRECTORY_PATH } from './config.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = PROJECT_DIRECTORY_PATH;
 
 // Get component names
 const componentsDir = join(__dirname, 'src', 'components');

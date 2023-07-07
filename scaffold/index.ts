@@ -1,6 +1,6 @@
 import { Command } from 'commander';
 import { assertComponentNameIsValid } from './utils.js';
-import { addComponentToExports, createComponent } from './fs-access.js';
+import { FileType, addComponentToExports, addMarkDownComponentReference, createFile } from './fs-access.js';
 
 const program = new Command();
 
@@ -14,8 +14,10 @@ program
   .action((componentname: string) => {
     try {
       assertComponentNameIsValid(componentname);
-      createComponent(componentname);
+      createFile(componentname, FileType.Component);
       addComponentToExports(componentname);
+      createFile(componentname, FileType.Markdown);
+      addMarkDownComponentReference(componentname);
 
     } catch (error) {
       console.error(error);

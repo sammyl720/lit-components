@@ -1,0 +1,5 @@
+export const PROJECT_DIRECTORY_PATH: string;
+export const PROJECT_RELATIVE_COMPONENTS_DIRECTORY: string;
+export const PROJECT_COMPONENTS_DIRECTORY: string;
+export const PROJECT_RELATIVE_MARKDOWN_DIRECTORY: string;
+export const MARKDOWM_COMPONENT_LIST_NAME: string;
