@@ -15,7 +15,7 @@ npm install @sammyl/lit-components
 Import individual components like this:
 
 ```javascript
-import { SimpleLink } from '@sammyl/lit-components/dist/simple-link';
+import { SimpleLink } from '@sammyl/lit-components';
 ```
 
 Then you can use them in your HTML:
@@ -30,7 +30,7 @@ Then you can use them in your HTML:
 Or you can import multiple components from the main entry point:
 
 ```javascript
-import { SimpleButton, SimpleLink } from '@sammyl/lit-components';
+import { LwcExpandingText, SimpleLink } from '@sammyl/lit-components';
 ```
 
 
@@ -44,8 +44,17 @@ You can also use the library directly in an HTML file through Unpkg:
 </script>
 
 <lwc-simple-link href="https://github.com" text="Github Link"></lwc-simple-link>
-<lwc-simple-button text="Button Text"></lwc-simple-button>
+<lwc-expanding-text
+  lines="5"
+  text="Web development forms the backbone of the digital universe. It comprises of a plethora of languages like HTML, CSS, and JavaScript, each with specific functions. With billions of websites online, each has a unique DNA coded by developers. Responsive design is now a standard, ensuring sites adapt to any device. Ever-evolving, the field embraces advancements such as Web 3.0, emphasizing machine learning and semantic metadata. APIs now facilitate seamless interconnectivity between platforms, improving user experience. Constant learning remains key, as frameworks like React and Angular redefine the landscape. Security and privacy also remain paramount in web development."
+  >
+</lwc-expanding-text>
+
 ```
+
+---
+#### [See components](./components.md)
+---
 
 ## Building
 

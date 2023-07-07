@@ -79,10 +79,9 @@ export class LwcDropdown extends LitElement {
   items: DropdownItem[] = [];
 
   @state()
-  open = false;
+  private open = false;
 
   render() {
-    console.log(this.items)
     const dropdownClassess = classMap({
       dropdown: true,
       'dropdown--active': this.open
@@ -114,11 +113,11 @@ export class LwcDropdown extends LitElement {
     `;
   }
 
-  selectDropdownItem(item: DropdownItem) {
+  private selectDropdownItem(item: DropdownItem) {
     this.dispatchEvent(new CustomEvent('itemSelected', { detail: item, bubbles: true }))
   }
 
-  toggleDropdown() {
+  private toggleDropdown() {
     this.open = !this.open;
     this.requestUpdate()
   }

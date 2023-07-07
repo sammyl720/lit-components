@@ -106,7 +106,6 @@ export class LwcExpandingText extends LitElement {
   }
 
   render() {
-    console.log('dfosjf', this.canExpand)
     const classess = classMap({
       "--expanded": this.expanded,
       "expandable-wrapper": true,
