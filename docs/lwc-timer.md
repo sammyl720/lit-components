@@ -4,11 +4,12 @@ The `lwc-timer` is a custom web component that provides a countdown timer functi
 
 ## Attributes
 
-- `value`: The current value of the timer. It decreases over time until it reaches the minimum value.
+- `value`: The current value of the timer. It decreases over time until it reaches the minimum value. If `ascending` attribute is set then the `value` increases until it reaches the `max`
 - `min`: The minimum value that the timer can reach. When the timer reaches this value, a `lwc-timer-expired` event is dispatched.
 - `max`: The maximum value that the timer can reach.
 - `interval`: The interval in milliseconds at which the timer updates.
 - `size`: The size of the timer element in pixels.
+- `ascending`: Boolean indicting that the timer should be reversed - The value increases until reaching the max.
 
 All attributes are optional and have default values.
 

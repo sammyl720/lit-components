@@ -32,9 +32,12 @@ const styles = css`
     transform: translate(-50%, -50%);
 }
 
-#timer-svg circle{
+#timer-svg circle {
+  stroke-width: var(--stroke-width);
+}
+
+#timer-svg #timer-circle{
     stroke-dasharray: var(--dash) var(--gap);
-    stroke-width: var(--stroke-width);
 }
 `;
 
@@ -80,10 +83,16 @@ export class LwcTimer extends LitElement {
   @property({ type: Number })
   size = 100;
 
+  /**
+   * Should the timer value increase until the max
+   * @type {boolean}
+   */
+  @property({ type: Boolean })
+  ascending = false;
+
   connectedCallback(): void {
     ValidateTimerProperties.Validate(this);
     super.connectedCallback();
-    this.intervalId = setInterval(() => { this.updateCount() }, this.interval);
   }
 
   private get radius() {
@@ -102,16 +111,19 @@ export class LwcTimer extends LitElement {
     return mapRange(this.value, this.min, this.max, 0, 100);
   }
 
+  private get colorPercentage() {
+    return this.ascending ? Math.round(100 - this.percentage) : this.percentage;
+  }
 
   private get activeColor() {
-    if (this.percentage >= 60) {
+    if (this.colorPercentage >= 60) {
       return this.getColorMix(COLORS.Warning, COLORS.Primary, 60, 100);
     }
     return this.getColorMix(COLORS.Danger, COLORS.Warning, 0, 60);
   }
 
   private getColorMix(minColor: COLORS, maxColor: COLORS, min: number, max: number) {
-    const percentage = mapRange(this.percentage, min, max, 0, 100);
+    const percentage = mapRange(this.colorPercentage, min, max, 0, 100);
     return `color-mix(in srgb, var(--primary, ${maxColor}) ${percentage}%, var(--danger, ${minColor}) ${100 - percentage}%)`;
   }
 
@@ -127,7 +139,15 @@ export class LwcTimer extends LitElement {
   }
 
   // a reference to setInterval request id to cancel on disconnect
-  private intervalId: ReturnType<typeof setInterval> | undefined;
+  private timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+  private get isStillActive() {
+    return this.ascending ? this.value < this.max : this.value > this.min;
+  }
+
+  private updateValue() {
+    this.value += this.ascending ? 1 : -1;
+  }
 
   private get getStyleInfo(): Record<string, number | string> {
     return {
@@ -139,11 +159,17 @@ export class LwcTimer extends LitElement {
   }
 
   render() {
+    this.timeoutId = setTimeout(() => { this.updateCount() }, this.interval);
     return html`
     <div class="timer" 
         style=${styleMap(this.getStyleInfo)}>
         <svg id="timer-svg" viewBox="0 0 ${this.size} ${this.size}" xmlns="http://www.w3.org/2000/svg">
             <circle 
+              cx="${Math.round(this.size / 2)}" 
+              cy="${Math.round(this.size / 2)}" 
+              r="${this.radius}" fill="none" stroke="rgba(0,0,0,0.15)" />
+            <circle 
+              id="timer-circle"
               cx="${Math.round(this.size / 2)}" 
               cy="${Math.round(this.size / 2)}" 
               r="${this.radius}" fill="none" stroke="var(--active-color)" />
@@ -156,16 +182,21 @@ export class LwcTimer extends LitElement {
   }
 
   updateCount() {
-    if (this.value <= this.min) {
-      this.dispatchEvent(new CustomEvent('lwc-timer-expired', { detail: { expired: true } }))
+    if (this.isStillActive) {
+      this.updateValue();
+      this.requestUpdate();
     } else {
-      this.value--;
-      this.requestUpdate()
+      this.dispatchEvent(new CustomEvent('lwc-timer-expired', { detail: { expired: true, element: this }, bubbles: true }));
+      this.clearTimer();
     }
   }
 
+  private clearTimer() {
+    if (!!this.timeoutId) clearTimeout(this.timeoutId);
+  }
+
   disconnectedCallback(): void {
-    if (!!this.intervalId) clearInterval(this.intervalId);
+    this.clearTimer();
     super.disconnectedCallback()
   }
 }
