@@ -1,9 +1,4 @@
-export interface ITimer {
-  max: number;
-  min: number;
-  value: number;
-  interval: number;
-}
+import { ITimer } from "../types";
 
 export class ValidateTimerProperties {
   private isValidated = false;
