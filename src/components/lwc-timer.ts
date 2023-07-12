@@ -4,6 +4,7 @@ import { styleMap } from 'lit/directives/style-map.js';
 import { ValidateTimerProperties } from '../validators/timer-validator';
 import { mapRange } from '../utils';
 import { COLORS } from '../types';
+import { classMap } from 'lit-html/directives/class-map.js';
 
 const styles = css`
 :host {
@@ -23,6 +24,7 @@ const styles = css`
 
 .timer-text {
   font-size: calc(var(--font-size) * 1px);
+  z-index: 3;
 }
 
 #timer-svg {
@@ -34,10 +36,17 @@ const styles = css`
 
 #timer-svg circle {
   stroke-width: var(--stroke-width);
+  opacity: 1;
 }
 
-#timer-svg #timer-circle{
+.timer #timer-svg #timer-circle{
     stroke-dasharray: var(--dash) var(--gap);
+    transition: var(--interval) linear;
+    stroke-linecap: var(--line-cap);
+}
+
+.--completed:not(.--ascending) #timer-circle {
+  opacity:0;
 }
 `;
 
@@ -111,19 +120,19 @@ export class LwcTimer extends LitElement {
     return mapRange(this.value, this.min, this.max, 0, 100);
   }
 
-  private get colorPercentage() {
+  private get normalizedPercentage() {
     return this.ascending ? Math.round(100 - this.percentage) : this.percentage;
   }
 
   private get activeColor() {
-    if (this.colorPercentage >= 60) {
+    if (this.normalizedPercentage >= 60) {
       return this.getColorMix(COLORS.Warning, COLORS.Primary, 60, 100);
     }
     return this.getColorMix(COLORS.Danger, COLORS.Warning, 0, 60);
   }
 
   private getColorMix(minColor: COLORS, maxColor: COLORS, min: number, max: number) {
-    const percentage = mapRange(this.colorPercentage, min, max, 0, 100);
+    const percentage = mapRange(this.normalizedPercentage, min, max, 0, 100);
     return `color-mix(in srgb, var(--primary, ${maxColor}) ${percentage}%, var(--danger, ${minColor}) ${100 - percentage}%)`;
   }
 
@@ -151,17 +160,29 @@ export class LwcTimer extends LitElement {
 
   private get getStyleInfo(): Record<string, number | string> {
     return {
-      '--dash': this.dash, '--gap': this.gap,
-      '--min': this.min, '--max': this.max,
-      '--size': this.size, '--active-color': this.activeColor,
+      '--dash': this.dash, '--gap': this.gap, "--percentage": Math.round(100 - this.normalizedPercentage),
+      '--min': this.min, '--max': this.max, '--line-cap': this.percentage === 100 ? 'butt' : 'round',
+      '--size': this.size, '--active-color': this.activeColor, '--interval': this.interval + 'ms',
       '--font-size': Math.round(this.size * 0.18), '--stroke-width': this.strokeWidth
+    }
+  }
+
+  private get completed() {
+    return !this.normalizedPercentage;
+  }
+
+  private get cssClasses() {
+    return {
+      '--completed': !this.normalizedPercentage,
+      '--ascending': this.ascending,
+      timer: true
     }
   }
 
   render() {
     this.timeoutId = setTimeout(() => { this.updateCount() }, this.interval);
     return html`
-    <div class="timer" 
+    <div class=${classMap(this.cssClasses)}
         style=${styleMap(this.getStyleInfo)}>
         <svg id="timer-svg" viewBox="0 0 ${this.size} ${this.size}" xmlns="http://www.w3.org/2000/svg">
             <circle 
@@ -187,6 +208,7 @@ export class LwcTimer extends LitElement {
       this.requestUpdate();
     } else {
       this.dispatchEvent(new CustomEvent('lwc-timer-expired', { detail: { expired: true, element: this }, bubbles: true }));
+      console.log(this.percentage, this.normalizedPercentage, this.ascending)
       this.clearTimer();
     }
   }
