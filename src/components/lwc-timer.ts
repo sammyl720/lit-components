@@ -99,7 +99,7 @@ export class LwcTimer extends LitElement {
   }
 
   private get percentage() {
-    return Math.max(this.min, Math.min(Math.round((this.max / 100) * this.value), 100));
+    return mapRange(this.value, this.min, this.max, 0, 100);
   }
 
 

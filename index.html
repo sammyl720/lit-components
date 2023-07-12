@@ -9,22 +9,29 @@
   <style>
     .container {
       width: min(600px, 80vw);
-      margin: auto;
-      gap: 16px;
+      margin: 1rem auto;
       display: grid;
-      place-content: center;
-      grid-template-columns: 1fr 2fr;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+      place-items: center;
+    }
+
+    lwc-timer {
+      border-radius: 15px;
+      border: 1px solid rgba(0, 0, 0, 0.356);
+      background: rgb(255, 248, 248);
+      box-shadow: 2px 1px 12px -8px rgba(0, 0, 0, 0.2);
     }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <lwc-timer interval="150" value="100" min="0" max="100"></lwc-timer>
-    <lwc-dropdown title="Healthy Food" items='[{"text":"Fish"},{"text":"Salad"}, {"text":"Fruits"}]'>dsd</lwc-dropdown>
-    <lwc-expanding-text lines="5"
-      text="
-      Web development forms the backbone of the digital universe. It comprises of a plethora of languages like HTML, CSS, and JavaScript, each with specific functions. With billions of websites online, each has a unique DNA coded by developers. Responsive design is now a standard, ensuring sites adapt to any device. Ever-evolving, the field embraces advancements such as Web 3.0, emphasizing machine learning and semantic metadata. APIs now facilitate seamless interconnectivity between platforms, improving user experience. Constant learning remains key, as frameworks like React and Angular redefine the landscape. Security and privacy also remain paramount in web development."></lwc-expanding-text>
+    <lwc-timer id="timer1" value="50" min="0" max="50" interval="2000" size="100"></lwc-timer>
+    <lwc-timer id="timer2" value="75" min="0" max="75" interval="1334" size="100"></lwc-timer>
+    <lwc-timer id="timer3" value="100" min="0" max="100" interval="1000" size="100"></lwc-timer>
+    <lwc-timer id="timer4" value="125" min="0" max="125" interval="800" size="100"></lwc-timer>
+    <lwc-timer id="timer5" value="150" min="0" max="150" interval="667" size="100"></lwc-timer>
   </div>
 </body>
 
